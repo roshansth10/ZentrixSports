@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="800" height="1000">
+    <defs>
+      <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.12"/>
+      </filter>
+      <linearGradient id="fabric_argentina_away" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.08"/>
+      </linearGradient>
+      
+    </defs>
+
+    <!-- Studio Background -->
+    <rect width="400" height="500" fill="#F8FAFC"/>
+    
+    <!-- Jersey Body Shadow & Base -->
+    <g filter="url(#shadow)">
+      <!-- Left Sleeve -->
+      <path d="M 120,90 L 40,150 L 75,210 L 125,160 Z" fill="#1A1A40" />
+      <path d="M 40,150 L 75,210 L 68,200 L 47,152 Z" fill="#6B46C1" />
+
+      <!-- Right Sleeve -->
+      <path d="M 280,90 L 360,150 L 325,210 L 275,160 Z" fill="#1A1A40" />
+      <path d="M 360,150 L 325,210 L 332,200 L 353,152 Z" fill="#6B46C1" />
+
+      <!-- Main Torso -->
+      <path d="M 120,90 Q 200,105 280,90 L 320,380 Q 200,395 80,380 Z" fill="#1A1A40" />
+      
+      
+      <!-- Fabric Texture overlay -->
+      <path d="M 120,90 Q 200,105 280,90 L 320,380 Q 200,395 80,380 Z" fill="url(#fabric_argentina_away)" />
+
+      <!-- Collar -->
+      <path d="M 145,85 Q 200,140 255,85 Q 200,110 145,85 Z" fill="#2D2D70" />
+      <path d="M 155,82 Q 200,120 245,82 Q 200,98 155,82 Z" fill="#1A1A40" />
+
+      <!-- Bottom Hem Trim -->
+      <path d="M 80,375 Q 200,390 320,375 L 320,380 Q 200,395 80,380 Z" fill="#6B46C1" />
+    </g>
+
+    <!-- Crest / Badge Area -->
+    <g transform="translate(250, 150)">
+      <rect x="-24" y="-28" width="48" height="56" rx="10" fill="#2D2D70" stroke="#9F7AEA" stroke-width="2"/>
+      <text x="0" y="4" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="10" fill="#9F7AEA" text-anchor="middle" letter-spacing="0.5">ARG</text>
+      <text x="0" y="16" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="7" fill="#FFFFFF" text-anchor="middle">AWAY</text>
+      <polygon points="0,-20 3,-12 11,-12 5,-7 7,1 0,-4 -7,1 -5,-7 -11,-12 -3,-12" fill="#FFC72C"/>
+    </g>
+
+    <!-- Brand Symbol -->
+    <g transform="translate(150, 150)">
+      <circle cx="0" cy="0" r="12" fill="none" stroke="#9F7AEA" stroke-width="3"/>
+      <path d="M -6,2 L 0,-6 L 6,2" fill="none" stroke="#9F7AEA" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Country & Kit Label -->
+    <text x="200" y="445" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="15" fill="#1E293B" text-anchor="middle" letter-spacing="1">ARGENTINA AWAY JERSEY 2026</text>
+    <text x="200" y="468" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="11" fill="#64748B" text-anchor="middle">OFFICIAL AUTHENTIC KIT • 2026</text>
+  </svg>

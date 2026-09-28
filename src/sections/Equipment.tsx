@@ -43,8 +43,8 @@ export default function Equipment() {
           <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800">
             Football Equipment
           </h2>
-          <p className="mt-2 text-slate-500 max-w-xl mx-auto">
-            Everything you need for training and match day. Professional quality gear.
+          <p className="mt-2 text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+            Everything your club, academy, or futsal team needs across Nepal. Match balls, goalkeeper gloves, and cones.
           </p>
         </motion.div>
 

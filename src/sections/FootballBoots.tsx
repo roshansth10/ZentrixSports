@@ -43,8 +43,8 @@ export default function FootballBoots() {
           <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800">
             Football Boots
           </h2>
-          <p className="mt-2 text-slate-500 max-w-xl mx-auto">
-            Elite boots worn by professionals. Engineered for speed, control, and precision.
+          <p className="mt-2 text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+            Elite boots worn by international pros and Nepal&apos;s top league athletes. Engineered for turf grounds, futsal courts, and natural grass.
           </p>
         </motion.div>
 

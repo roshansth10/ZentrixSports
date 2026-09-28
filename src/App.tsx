@@ -1,14 +1,19 @@
 import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
+
 import Navigation from './components/Navigation';
-import Hero from './sections/Hero';
-import FeaturedProducts from './sections/FeaturedProducts';
-import WorldCupJerseys from './sections/WorldCupJerseys';
-import ClubJerseys from './sections/ClubJerseys';
-import FootballBoots from './sections/FootballBoots';
-import Equipment from './sections/Equipment';
-import Reviews from './sections/Reviews';
+import ScrollToTop from './components/ScrollToTop';
+import HomePage from './pages/HomePage';
+import JerseysPage from './pages/JerseysPage';
+import BootsPage from './pages/BootsPage';
+import EquipmentPage from './pages/EquipmentPage';
+import OffersPage from './pages/OffersPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import Footer from './sections/Footer';
 import CartDrawer from './components/CartDrawer';
 import ProductModal from './components/ProductModal';
@@ -26,58 +31,85 @@ function App() {
     selectedProduct, 
     checkoutStep, 
     closeCart, 
-    closeProductModal,
+    closeProductModal, 
     setCheckoutStep 
   } = useStore();
 
   useEffect(() => {
-    // Smooth scroll behavior
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
+    // Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+    });
+
+    // Synchronize Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
+      gsap.ticker.remove(updateLenis);
+      lenis.destroy();
       ScrollTrigger.getAll().forEach(st => st.kill());
     };
   }, []);
 
   return (
-    <div className="relative bg-[#F8FAFC] min-h-screen overflow-x-hidden">
-      <Navigation />
-      
-      <main className="relative">
-        <Hero />
-        <FeaturedProducts />
-        <WorldCupJerseys />
-{/* <ClubJerseys /> - disabled per user request */}
-        <FootballBoots />
-        <Equipment />
-        <Reviews />
-      </main>
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="relative bg-[#F8FAFC] min-h-screen overflow-x-hidden flex flex-col justify-between">
+        <Navigation />
+        
+        <main className="relative flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/jerseys" element={<JerseysPage />} />
+            <Route path="/boots" element={<BootsPage />} />
+            <Route path="/equipment" element={<EquipmentPage />} />
+            <Route path="/offers" element={<OffersPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            {/* Catch-all route redirect to home */}
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </main>
 
-      <Footer />
+        <Footer />
 
-      {/* Modals and Drawers */}
-      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
-      
-      {selectedProduct && (
-        <ProductModal 
-          product={selectedProduct} 
-          isOpen={!!selectedProduct} 
-          onClose={closeProductModal} 
-        />
-      )}
+        {/* Global Modals and Drawers */}
+        <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+        
+        {selectedProduct && (
+          <ProductModal 
+            product={selectedProduct} 
+            isOpen={!!selectedProduct} 
+            onClose={closeProductModal} 
+          />
+        )}
 
-      {checkoutStep === 'checkout' && (
-        <Checkout onClose={() => setCheckoutStep('')} />
-      )}
+        {checkoutStep === 'checkout' && (
+          <Checkout onClose={() => setCheckoutStep('')} />
+        )}
 
-      {checkoutStep === 'payment' && (
-        <Payment onClose={() => setCheckoutStep('')} />
-      )}
+        {checkoutStep === 'payment' && (
+          <Payment onClose={() => setCheckoutStep('')} />
+        )}
 
-      {checkoutStep === 'success' && (
-        <PaymentSuccess onClose={() => setCheckoutStep('')} />
-      )}
-    </div>
+        {checkoutStep === 'success' && (
+          <PaymentSuccess onClose={() => setCheckoutStep('')} />
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 

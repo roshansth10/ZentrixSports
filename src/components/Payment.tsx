@@ -37,7 +37,9 @@ export default function Payment({ onClose }: PaymentProps) {
     setCheckoutStep('success');
   };
 
-  const total = getCartTotal() * 1.1 + (getCartTotal() > 100 ? 0 : 10);
+  const subtotal = getCartTotal();
+  const shipping = subtotal >= 4000 || subtotal === 0 ? 0 : 150;
+  const total = subtotal + shipping;
 
   return (
     <motion.div
@@ -54,7 +56,10 @@ export default function Payment({ onClose }: PaymentProps) {
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-slate-100">
-            <h2 className="text-xl font-bold text-slate-800">Payment</h2>
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">Payment</h2>
+              <p className="text-xs text-slate-500">Zentrix Sports Nepal (Nayabazar)</p>
+            </div>
             <button
               onClick={onClose}
               className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
@@ -66,47 +71,50 @@ export default function Payment({ onClose }: PaymentProps) {
           <div className="p-6">
             {/* Amount */}
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-[#3B82F6]/5 to-[#22C55E]/5 rounded-2xl">
-              <p className="text-slate-500 text-sm">Total Amount</p>
-              <p className="text-4xl font-bold text-[#3B82F6]">
-                रू {total.toFixed(0)}
+              <p className="text-slate-500 text-sm">Payable Amount (NPR)</p>
+              <p className="text-4xl font-black text-[#3B82F6] mt-1">
+                रू {total.toLocaleString()}
+              </p>
+              <p className="text-slate-400 text-xs mt-1">
+                {shipping === 0 ? 'Free Express Delivery included' : 'Delivery: रू 150 included'}
               </p>
             </div>
 
             {/* Payment Methods */}
             {!selectedMethod ? (
-              <div className="space-y-4">
-                <p className="text-slate-600 text-sm font-medium mb-4">Select Payment Method</p>
+              <div className="space-y-3">
+                <p className="text-slate-600 text-sm font-semibold mb-3">Choose Payment Method:</p>
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedMethod('esewa')}
-                  className="w-full flex items-center gap-4 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-[#22C55E] hover:bg-[#22C55E]/5 transition-all"
+                  className="w-full flex items-center gap-4 p-4 bg-emerald-50/60 border-2 border-emerald-200 rounded-2xl hover:border-emerald-500 hover:bg-emerald-50 transition-all text-left"
                 >
-                  <div className="w-14 h-14 bg-[#22C55E]/10 rounded-xl flex items-center justify-center">
-                    <Wallet className="w-7 h-7 text-[#22C55E]" />
+                  <div className="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center font-bold text-lg shadow-sm">
+                    e
                   </div>
-                  <div className="flex-1 text-left">
-                    <p className="text-slate-800 font-bold text-lg">eSewa</p>
-                    <p className="text-slate-400 text-sm">Pay with eSewa wallet</p>
+                  <div className="flex-1">
+                    <p className="text-slate-900 font-bold">eSewa Wallet</p>
+                    <p className="text-slate-500 text-xs">Instant Nepal Digital Payment</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-slate-300" />
+                  <ArrowRight className="w-4 h-4 text-emerald-600" />
                 </motion.button>
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedMethod('khalti')}
-                  className="w-full flex items-center gap-4 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-[#3B82F6] hover:bg-[#3B82F6]/5 transition-all"
+                  className="w-full flex items-center gap-4 p-4 bg-purple-50/60 border-2 border-purple-200 rounded-2xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
                 >
-                  <div className="w-14 h-14 bg-[#3B82F6]/10 rounded-xl flex items-center justify-center">
-                    <Smartphone className="w-7 h-7 text-[#3B82F6]" />
+                  <div className="w-12 h-12 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold text-lg shadow-sm">
+                    K
                   </div>
-                  <div className="flex-1 text-left">
-                    <p className="text-slate-800 font-bold text-lg">Khalti</p>
-                    <p className="text-slate-400 text-sm">Pay with Khalti</p>
+                  <div className="flex-1">
+                    <p className="text-slate-900 font-bold">Khalti Digital Wallet</p>
+                    <p className="text-slate-500 text-xs">Mobile number & OTP</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-slate-300" />
+                  <ArrowRight className="w-4 h-4 text-purple-600" />
                 </motion.button>
               </div>
             ) : (
@@ -116,78 +124,78 @@ export default function Payment({ onClose }: PaymentProps) {
                   onClick={() => setSelectedMethod(null)}
                   className="text-[#3B82F6] text-sm font-medium hover:underline flex items-center gap-1"
                 >
-                  ← Change Method
+                  ← Choose different method
                 </button>
 
                 {selectedMethod === 'esewa' ? (
                   <>
-                    <div className="flex items-center gap-3 mb-6 p-4 bg-[#22C55E]/5 rounded-xl">
-                      <div className="w-12 h-12 bg-[#22C55E]/10 rounded-xl flex items-center justify-center">
-                        <Wallet className="w-6 h-6 text-[#22C55E]" />
+                    <div className="flex items-center gap-3 mb-4 p-3.5 bg-emerald-50 rounded-xl border border-emerald-100">
+                      <div className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center font-bold">
+                        e
                       </div>
                       <div>
-                        <p className="text-slate-800 font-bold">eSewa Payment</p>
-                        <p className="text-slate-400 text-sm">Secure wallet payment</p>
+                        <p className="text-slate-800 font-bold text-sm">eSewa Direct Pay</p>
+                        <p className="text-slate-500 text-xs">Official Merchant ID: ZENTRIX-NP</p>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-600 text-sm font-medium mb-2">
-                        eSewa ID
+                      <label className="block text-slate-600 text-xs font-bold uppercase mb-1.5">
+                        eSewa ID / Mobile Number
                       </label>
                       <input
                         type="text"
                         value={esewaId}
                         onChange={(e) => setEsewaId(e.target.value)}
                         required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 transition-all"
-                        placeholder="Enter your eSewa ID"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                        placeholder="98XXXXXXXX"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-600 text-sm font-medium mb-2">
-                        Password
+                      <label className="block text-slate-600 text-xs font-bold uppercase mb-1.5">
+                        eSewa MPIN / Password
                       </label>
                       <input
                         type="password"
                         value={esewaPassword}
                         onChange={(e) => setEsewaPassword(e.target.value)}
                         required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 transition-all"
-                        placeholder="Enter your password"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                        placeholder="••••"
                       />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="flex items-center gap-3 mb-6 p-4 bg-[#3B82F6]/5 rounded-xl">
-                      <div className="w-12 h-12 bg-[#3B82F6]/10 rounded-xl flex items-center justify-center">
-                        <Smartphone className="w-6 h-6 text-[#3B82F6]" />
+                    <div className="flex items-center gap-3 mb-4 p-3.5 bg-purple-50 rounded-xl border border-purple-100">
+                      <div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold">
+                        K
                       </div>
                       <div>
-                        <p className="text-slate-800 font-bold">Khalti Payment</p>
-                        <p className="text-slate-400 text-sm">Mobile payment</p>
+                        <p className="text-slate-800 font-bold text-sm">Khalti Payment</p>
+                        <p className="text-slate-500 text-xs">Official Merchant: Zentrix Sports</p>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-600 text-sm font-medium mb-2">
-                        Phone Number
+                      <label className="block text-slate-600 text-xs font-bold uppercase mb-1.5">
+                        Khalti Registered Mobile
                       </label>
                       <input
                         type="tel"
                         value={khaltiPhone}
                         onChange={(e) => setKhaltiPhone(e.target.value)}
                         required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
                         placeholder="98XXXXXXXX"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-600 text-sm font-medium mb-2">
-                        OTP
+                      <label className="block text-slate-600 text-xs font-bold uppercase mb-1.5">
+                        6-Digit Confirmation OTP
                       </label>
                       <input
                         type="text"
@@ -195,8 +203,8 @@ export default function Payment({ onClose }: PaymentProps) {
                         onChange={(e) => setKhaltiOtp(e.target.value)}
                         required
                         maxLength={6}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
-                        placeholder="Enter OTP"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+                        placeholder="123456"
                       />
                     </div>
                   </>
@@ -207,34 +215,34 @@ export default function Payment({ onClose }: PaymentProps) {
                   disabled={isProcessing || isComplete}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition-all duration-300 mt-6 ${
+                  className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all duration-300 mt-6 ${
                     isComplete
-                      ? 'bg-[#22C55E] text-white'
-                      : 'bg-gradient-to-r from-[#3B82F6] to-[#22C55E] text-white hover:shadow-lg hover:shadow-[#3B82F6]/25'
+                      ? 'bg-emerald-600 text-white shadow-lg'
+                      : 'bg-slate-900 text-white hover:bg-slate-800 shadow-lg'
                   }`}
                 >
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Processing...
+                      Connecting to Nepal Gateway...
                     </>
                   ) : isComplete ? (
                     <>
                       <Check className="w-5 h-5" />
-                      Payment Complete!
+                      Payment Verified!
                     </>
                   ) : (
                     <>
-                      Pay रू {total.toFixed(0)}
+                      Pay रू {total.toLocaleString()}
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
                 </motion.button>
               </form>
             )}
-          </div>
-        </motion.div>
       </div>
     </motion.div>
-  );
+  </div>
+</motion.div>
+);
 }

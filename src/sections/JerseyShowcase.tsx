@@ -7,15 +7,15 @@ import { ArrowRight } from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
 const jerseyImages = [
-'/images/jerseys/argentina.jpg',
-'/images/jerseys/brazil.jpg',
-'/images/jerseys/england.jpg',
-'/images/jerseys/france.jpg',
-'/images/jerseys/germany.jpg',
-'/images/jerseys/NED.jpg',
-'/images/jerseys/portugalhome.jpg',
-'/images/jerseys/spainhome.jpg',
-'/images/jerseys/mexicohome.jpg',
+  '/images/jerseys/argentina/Home.jpg',
+  '/images/jerseys/brazil/Home.jpg',
+  '/images/jerseys/england/home.jpg',
+  '/images/jerseys/france/Home.jpg',
+  '/images/jerseys/germany/Home.png',
+  '/images/jerseys/portugal/Home.jpg',
+  '/images/jerseys/spain/Home.jpg',
+  '/images/jerseys/mexico/Home.png',
+  '/images/jerseys/nepal/home.jpg',
 ];
 
 export default function JerseyShowcase() {
